@@ -1,18 +1,15 @@
-import Foundation
 import SwiftUI
 
 final class AppState: ObservableObject {
     @Published var tasks: [DailyTask] = SampleData.sampleTasks
     @Published var displayName: String = "Alex"
     @Published var avatarInitials: String = "A"
-    @Published var avatarImageName: String? = nil // For image support
+    @Published var avatarImageName: String? = nil
 
-    // Celebration flag when a task is completed
-    @Published var showCelebration: Bool = false
-    @Published var animatedProgress: Double = 0.0 // For progress animation
+    // Onboarding flag – you can switch this to true after testing
     @Published var hasCompletedOnboarding: Bool = false
 
-    // MARK: - Derived values
+    @Published var showCelebration: Bool = false
 
     var completedCount: Int {
         tasks.filter { $0.isCompleted }.count
@@ -32,33 +29,20 @@ final class AppState: ObservableObject {
         if tasks[index].isCompleted { return }
         
         HapticFeedback.success()
-        
-        withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-            tasks[index].isCompleted = true
-            updateAnimatedProgress()
-        }
-        
+        tasks[index].isCompleted = true
         triggerCelebration()
-    }
-    
-    private func updateAnimatedProgress() {
-        withAnimation(.spring(response: 0.8, dampingFraction: 0.7)) {
-            animatedProgress = progress
-        }
-    }
-    
-    init() {
-        let initialProgress = SampleData.sampleTasks.isEmpty ? 0.0 : 
-            Double(SampleData.sampleTasks.filter { $0.isCompleted }.count) / Double(SampleData.sampleTasks.count)
-        animatedProgress = initialProgress
     }
 
     private func triggerCelebration() {
         showCelebration = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
             withAnimation(.easeOut(duration: 0.3)) {
                 self.showCelebration = false
             }
         }
+    }
+
+    func completeOnboarding() {
+        hasCompletedOnboarding = true
     }
 }

@@ -164,7 +164,7 @@ struct ProfileScreen: View {
                     color: .green
                 )
                 statItem(
-                    value: "\(Int(appState.animatedProgress * 100))%",
+                    value: "\(Int(appState.progress * 100))%",
                     label: "Progress",
                     icon: "chart.line.uptrend.xyaxis",
                     color: .blue

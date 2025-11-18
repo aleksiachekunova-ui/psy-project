@@ -53,7 +53,7 @@ struct HomeView: View {
                         
                         CupCardView(
                             name: appState.displayName,
-                            progress: appState.animatedProgress,
+                            progress: appState.progress,
                             completed: appState.completedCount,
                             total: appState.totalCount
                         )

@@ -360,7 +360,7 @@ struct OnboardingView: View {
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                appState.hasCompletedOnboarding = true
+                appState.completeOnboarding()
             }
         }
     }

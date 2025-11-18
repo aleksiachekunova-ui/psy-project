@@ -23,7 +23,7 @@ struct ProgressScreen: View {
                             delay: 0.1
                         )
                         statCard(
-                            title: String(format: "%.0f%%", appState.animatedProgress * 100),
+                            title: String(format: "%.0f%%", appState.progress * 100),
                             subtitle: "Cup filled today",
                             systemImage: "cup.and.saucer.fill",
                             color: .purple,
