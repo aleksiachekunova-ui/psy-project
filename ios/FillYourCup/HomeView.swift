@@ -49,22 +49,39 @@ struct HomeView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         headerSection
+                            .transition(.move(edge: .top).combined(with: .opacity))
+                        
                         CupCardView(
                             name: appState.displayName,
-                            progress: appState.progress,
+                            progress: appState.animatedProgress,
                             completed: appState.completedCount,
                             total: appState.totalCount
                         )
                         .frame(height: 260)
+                        .transition(.scale.combined(with: .opacity))
 
                         tinyThingSection
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                        
                         tasksSection
+                            .transition(.opacity)
+                        
                         moodSection
+                            .transition(.opacity)
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom, 24)
                 }
-                .background(Color(.systemGroupedBackground))
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(.systemGroupedBackground),
+                            Color(.systemGroupedBackground).opacity(0.8)
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
                 .navigationBarHidden(true)
             }
 
@@ -97,13 +114,32 @@ struct HomeView: View {
             Spacer()
 
             ZStack {
-                Circle()
-                    .fill(Color.purple.opacity(0.2))
+                if let avatarImageName = appState.avatarImageName {
+                    AsyncImage(url: URL(string: avatarImageName)) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        Circle()
+                            .fill(Color.purple.opacity(0.2))
+                            .overlay(
+                                Text(appState.avatarInitials)
+                                    .font(.headline)
+                                    .fontWeight(.semibold)
+                            )
+                    }
                     .frame(width: 44, height: 44)
-
-                Text(appState.avatarInitials)
-                    .font(.headline)
-                    .fontWeight(.semibold)
+                    .clipShape(Circle())
+                } else {
+                    Circle()
+                        .fill(Color.purple.opacity(0.2))
+                        .frame(width: 44, height: 44)
+                        .overlay(
+                            Text(appState.avatarInitials)
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                        )
+                }
 
                 Circle()
                     .fill(Color.green)
@@ -159,15 +195,14 @@ struct HomeView: View {
             }
         }
         .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 24)
-                .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 6)
-        )
+        .glassmorphism(cornerRadius: 24, opacity: 0.8)
     }
     
     private func tinyThingButton(title: String, icon: String, color: Color, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
+        Button(action: {
+            HapticFeedback.medium()
+            action()
+        }) {
             HStack(spacing: 12) {
                 Image(systemName: icon)
                     .foregroundColor(color)
@@ -187,19 +222,29 @@ struct HomeView: View {
                     )
             )
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(AnimatedButtonStyle(scale: 0.96))
     }
 
     private var tasksSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            ForEach(appState.tasks) { task in
+            ForEach(Array(appState.tasks.enumerated()), id: \.element.id) { index, task in
                 taskRow(task)
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity),
+                        removal: .scale.combined(with: .opacity)
+                    ))
+                    .animation(
+                        .spring(response: 0.5, dampingFraction: 0.7)
+                            .delay(Double(index) * 0.05),
+                        value: appState.tasks
+                    )
             }
         }
     }
 
     private func taskRow(_ task: DailyTask) -> some View {
         Button(action: {
+            HapticFeedback.selection()
             selectedTask = task
         }) {
             HStack(spacing: 12) {
@@ -210,11 +255,14 @@ struct HomeView: View {
                     Image(systemName: task.categoryIconName)
                         .foregroundColor(iconColor(for: task))
                 }
+                .scaleEffect(task.isCompleted ? 1.1 : 1.0)
+                .animation(.spring(response: 0.4, dampingFraction: 0.6), value: task.isCompleted)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(task.title)
                         .font(.body)
                         .foregroundColor(.primary)
+                        .strikethrough(task.isCompleted)
                     Text(task.subtitle)
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -224,15 +272,13 @@ struct HomeView: View {
 
                 Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "chevron.right")
                     .foregroundColor(task.isCompleted ? .green : .gray)
+                    .scaleEffect(task.isCompleted ? 1.2 : 1.0)
+                    .animation(.spring(response: 0.4, dampingFraction: 0.6), value: task.isCompleted)
             }
             .padding(16)
-            .background(
-                RoundedRectangle(cornerRadius: 24)
-                    .fill(Color.white)
-                    .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 4)
-            )
+            .glassmorphism(cornerRadius: 24, opacity: 0.85)
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(ScaleButtonStyle())
     }
 
     private var moodSection: some View {
@@ -250,14 +296,26 @@ struct HomeView: View {
                     .foregroundColor(.secondary)
             }
 
-            Button(action: {}) {
+            Button(action: {
+                HapticFeedback.success()
+            }) {
                 Text("Save mood")
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.black.opacity(0.06))
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                Color.purple.opacity(0.2),
+                                Color.blue.opacity(0.2)
+                            ]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
                     .cornerRadius(18)
             }
+            .buttonStyle(AnimatedButtonStyle(scale: 0.97))
         }
         .padding(.top, 8)
     }

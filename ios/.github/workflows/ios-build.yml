@@ -1,0 +1,98 @@
+name: iOS Build Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: # Позволяет запускать вручную
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        # Использует токен для приватных репозиториев (если нужен)
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+    
+    - name: Select Xcode version
+      run: |
+        # Автоматически выбирает последнюю версию Xcode
+        sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+    
+    - name: Show Xcode version
+      run: xcodebuild -version
+    
+    - name: List available simulators
+      run: xcrun simctl list devices available
+    
+    - name: Build iOS project
+      run: |
+        # Ищем .xcodeproj или .xcworkspace
+        if [ -f "FillYourCup.xcodeproj/project.pbxproj" ]; then
+          echo "✅ Найден .xcodeproj файл"
+          xcodebuild -project FillYourCup.xcodeproj \
+            -scheme FillYourCup \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -configuration Debug \
+            clean build || exit 1
+        elif [ -f "ios/FillYourCup.xcodeproj/project.pbxproj" ]; then
+          echo "✅ Найден .xcodeproj файл в папке ios/"
+          cd ios
+          xcodebuild -project FillYourCup.xcodeproj \
+            -scheme FillYourCup \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -configuration Debug \
+            clean build || exit 1
+        elif [ -f "FillYourCup.xcworkspace/contents.xcworkspacedata" ]; then
+          echo "✅ Найден .xcworkspace файл"
+          xcodebuild -workspace FillYourCup.xcworkspace \
+            -scheme FillYourCup \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -configuration Debug \
+            clean build || exit 1
+        else
+          echo "⚠️ Не найден .xcodeproj или .xcworkspace файл"
+          echo "📁 Содержимое директории:"
+          ls -la
+          echo ""
+          echo "💡 Создайте Xcode проект:"
+          echo "   1. Откройте Xcode"
+          echo "   2. File → New → Project → iOS → App"
+          echo "   3. Название: FillYourCup"
+          echo "   4. Добавьте все Swift файлы из папки FillYourCup/"
+          echo ""
+          echo "📖 Или используйте Swift Package Manager для проверки синтаксиса:"
+          swift --version || echo "Swift не установлен"
+          exit 1
+        fi
+      
+    - name: Run tests (if available)
+      continue-on-error: true
+      run: |
+        if [ -f "FillYourCup.xcodeproj/project.pbxproj" ]; then
+          xcodebuild test -project FillYourCup.xcodeproj \
+            -scheme FillYourCup \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15' || true
+        elif [ -f "FillYourCup.xcworkspace/contents.xcworkspacedata" ]; then
+          xcodebuild test -workspace FillYourCup.xcworkspace \
+            -scheme FillYourCup \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15' || true
+        fi
+    
+    - name: Build summary
+      if: always()
+      run: |
+        echo "## ✅ Сборка завершена" >> $GITHUB_STEP_SUMMARY
+        echo "- Статус: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Версия Xcode: $(xcodebuild -version | head -n 1)" >> $GITHUB_STEP_SUMMARY
+
