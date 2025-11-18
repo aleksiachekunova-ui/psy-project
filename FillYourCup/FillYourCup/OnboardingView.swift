@@ -155,11 +155,19 @@ struct OnboardingView: View {
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(userName.isEmpty ? Color.gray : LinearGradient(
-                        gradient: Gradient(colors: [Color.purple, Color.blue]),
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    ))
+                    .background(
+                        userName.isEmpty 
+                        ? LinearGradient(
+                            gradient: Gradient(colors: [Color.gray, Color.gray]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                        : LinearGradient(
+                            gradient: Gradient(colors: [Color.purple, Color.blue]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
                     .foregroundColor(.white)
                     .cornerRadius(20)
             }

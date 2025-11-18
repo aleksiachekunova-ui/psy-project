@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 enum SampleData {
     static let sampleTasks: [DailyTask] = [

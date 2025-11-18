@@ -17,8 +17,8 @@ struct AnimatedButtonStyle: ButtonStyle {
         configuration.label
             .scaleEffect(configuration.isPressed ? scale : 1.0)
             .animation(.spring(response: 0.3, dampingFraction: 0.6), value: configuration.isPressed)
-            .onChange(of: configuration.isPressed) { isPressed in
-                if isPressed {
+            .onChange(of: configuration.isPressed) { oldValue, newValue in
+                if newValue {
                     HapticFeedback.light()
                 }
             }

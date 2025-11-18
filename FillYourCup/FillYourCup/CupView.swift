@@ -145,9 +145,9 @@ struct CupView: View {
                 animatedProgress = progress
             }
         }
-        .onChange(of: progress) { newProgress in
+        .onChange(of: progress) { oldValue, newValue in
             withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
-                animatedProgress = newProgress
+                animatedProgress = newValue
             }
         }
     }

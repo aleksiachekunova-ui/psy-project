@@ -55,13 +55,17 @@ struct HomeView: View {
                             name: appState.displayName,
                             progress: appState.progress,
                             completed: appState.completedCount,
-                            total: appState.totalCount,
-                            streak: appState.currentStreak
+                            total: appState.totalCount
                         )
                         .frame(height: 260)
                         .transition(.scale.combined(with: .opacity))
 
-<<<<<<< Updated upstream
+                        // AI USM Suggestion
+                        if let suggestion = appState.aiSuggestion {
+                            aiSuggestionSection(suggestionText: suggestion)
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
+                        }
+                        
                         // Mood Check-in Section
                         MoodCheckInView()
                             .transition(.opacity)
@@ -75,12 +79,6 @@ struct HomeView: View {
                         // Weekly Goals Section
                         WeeklyGoalsView()
                             .transition(.opacity)
-=======
-                        if let suggestion = appState.aiSuggestion {
-                            aiSuggestionSection(suggestionText: suggestion)
-                                .transition(.move(edge: .bottom).combined(with: .opacity))
-                        }
->>>>>>> Stashed changes
 
                         tinyThingSection
                             .transition(.move(edge: .bottom).combined(with: .opacity))

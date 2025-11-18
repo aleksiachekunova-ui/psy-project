@@ -1,6 +1,7 @@
 import Foundation
+import SwiftUI
 
-struct DailyTask: Identifiable {
+struct DailyTask: Identifiable, Equatable {
     let id: UUID
     let title: String
     let subtitle: String
