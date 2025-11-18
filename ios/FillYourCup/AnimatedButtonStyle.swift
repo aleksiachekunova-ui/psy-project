@@ -1,8 +1,8 @@
 import SwiftUI
 
 // MARK: - Animated Button Style
-// PURPOSE: Стиль кнопки с spring анимацией и haptic feedback
-// CONTRACT: Применяется к Button, добавляет scale эффект при нажатии
+// PURPOSE: Button style with spring animation and haptic feedback
+// CONTRACT: Applied to Button, adds scale effect on press
 
 struct AnimatedButtonStyle: ButtonStyle {
     let color: Color?
@@ -26,7 +26,7 @@ struct AnimatedButtonStyle: ButtonStyle {
 }
 
 // MARK: - Scale Button Style
-// PURPOSE: Простой стиль с масштабированием
+// PURPOSE: Simple style with scaling
 struct ScaleButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label

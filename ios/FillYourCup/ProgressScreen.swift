@@ -31,7 +31,7 @@ struct ProgressScreen: View {
                         )
                     }
 
-                    // График прогресса
+                    // Progress chart
                     progressChart
                         .opacity(appear ? 1.0 : 0.0)
                         .offset(y: appear ? 0 : 20)

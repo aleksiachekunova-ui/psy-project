@@ -14,13 +14,13 @@ struct ProfileScreen: View {
                         .opacity(appear ? 1.0 : 0.0)
                         .offset(x: appear ? 0 : -20)
 
-                    // Профиль карточка
+                    // Profile card
                     profileCard
                         .opacity(appear ? 1.0 : 0.0)
                         .offset(y: appear ? 0 : 20)
                         .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.1), value: appear)
 
-                    // Статистика
+                    // Statistics
                     statsSection
                         .opacity(appear ? 1.0 : 0.0)
                         .offset(y: appear ? 0 : 20)

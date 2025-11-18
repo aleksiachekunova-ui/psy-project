@@ -1,47 +1,47 @@
 import UIKit
 
 // MARK: - Haptic Feedback Manager
-// PURPOSE: Централизованное управление тактильной обратной связью
-// CONTRACT: Статические методы для различных типов haptic feedback
+// PURPOSE: Centralized haptic feedback management
+// CONTRACT: Static methods for different types of haptic feedback
 
 enum HapticFeedback {
-    // Легкое нажатие
+    // Light tap
     static func light() {
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
     }
     
-    // Среднее нажатие
+    // Medium tap
     static func medium() {
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
     }
     
-    // Сильное нажатие
+    // Heavy tap
     static func heavy() {
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
     }
     
-    // Успешное действие
+    // Success action
     static func success() {
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
     }
     
-    // Ошибка
+    // Error
     static func error() {
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.error)
     }
     
-    // Предупреждение
+    // Warning
     static func warning() {
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.warning)
     }
     
-    // Выбор элемента
+    // Selection
     static func selection() {
         let generator = UISelectionFeedbackGenerator()
         generator.selectionChanged()

@@ -5,11 +5,12 @@ final class AppState: ObservableObject {
     @Published var tasks: [DailyTask] = SampleData.sampleTasks
     @Published var displayName: String = "Alex"
     @Published var avatarInitials: String = "A"
-    @Published var avatarImageName: String? = nil // Для поддержки изображений
+    @Published var avatarImageName: String? = nil // For image support
 
     // Celebration flag when a task is completed
     @Published var showCelebration: Bool = false
-    @Published var animatedProgress: Double = 0.0 // Для анимации прогресса
+    @Published var animatedProgress: Double = 0.0 // For progress animation
+    @Published var hasCompletedOnboarding: Bool = false
 
     // MARK: - Derived values
 

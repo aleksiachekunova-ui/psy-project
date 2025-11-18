@@ -11,7 +11,7 @@ struct TaskDetailView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    // Иконка задачи
+                    // Task icon
                     HStack {
                         ZStack {
                             RoundedRectangle(cornerRadius: 20)

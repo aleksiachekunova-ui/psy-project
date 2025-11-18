@@ -30,13 +30,13 @@ struct CelebrationOverlay: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Фоновое размытие
+                // Background blur
                 Color.black.opacity(0.1)
                     .ignoresSafeArea()
                     .blur(radius: 2)
                 
                 ZStack {
-                    // Центральная звезда
+                    // Central star
                     Image(systemName: "star.fill")
                         .font(.system(size: 80))
                         .foregroundStyle(
@@ -50,7 +50,7 @@ struct CelebrationOverlay: View {
                         .rotationEffect(.degrees(rotation))
                         .shadow(color: .purple.opacity(0.8), radius: 20)
                     
-                    // Частицы
+                    // Particles
                     ForEach(particles) { particle in
                         Image(systemName: ["star.fill", "sparkle", "star"].randomElement() ?? "star.fill")
                             .foregroundColor(particle.color)

@@ -1,8 +1,8 @@
 import SwiftUI
 
 // MARK: - Glassmorphism Effect
-// PURPOSE: Создает эффект матового стекла с размытием и прозрачностью
-// CONTRACT: Принимает cornerRadius и opacity, возвращает модификатор View
+// PURPOSE: Creates frosted glass effect with blur and transparency
+// CONTRACT: Takes cornerRadius and opacity, returns View modifier
 
 struct GlassmorphismModifier: ViewModifier {
     let cornerRadius: CGFloat

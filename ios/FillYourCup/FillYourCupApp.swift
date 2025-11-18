@@ -6,8 +6,13 @@ struct FillYourCupApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootTabView()
-                .environmentObject(appState)
+            if appState.hasCompletedOnboarding {
+                RootTabView()
+                    .environmentObject(appState)
+            } else {
+                OnboardingView()
+                    .environmentObject(appState)
+            }
         }
     }
 }
