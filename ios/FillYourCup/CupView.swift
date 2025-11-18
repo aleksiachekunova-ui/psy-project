@@ -33,10 +33,11 @@ struct CupCardView: View {
                     .foregroundColor(.secondary)
 
                 HStack(spacing: 8) {
-                    Circle().fill(Color.purple).frame(width: 8, height: 8)
-                    Circle().fill(Color.purple.opacity(0.4)).frame(width: 8, height: 8)
-                    Circle().fill(Color.purple.opacity(0.25)).frame(width: 8, height: 8)
-                    Circle().fill(Color.purple.opacity(0.15)).frame(width: 8, height: 8)
+                    ForEach(0..<total, id: \.self) { index in
+                        Circle()
+                            .fill(index < completed ? Color.purple : Color.gray.opacity(0.3))
+                            .frame(width: 8, height: 8)
+                    }
                 }
             }
             .padding(24)

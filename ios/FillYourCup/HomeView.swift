@@ -89,7 +89,7 @@ struct HomeView: View {
                 Text(greetingTitle())
                     .font(.title2)
                     .fontWeight(.bold)
-                Text("Let us fill your cup today")
+                Text("Let's fill your cup today ✨")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
@@ -115,7 +115,7 @@ struct HomeView: View {
     }
 
     private var tinyThingSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 10) {
                 ZStack {
                     Circle()
@@ -131,6 +131,32 @@ struct HomeView: View {
             Text("What would help fill your cup this afternoon?")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
+            
+            VStack(spacing: 12) {
+                tinyThingButton(
+                    title: "Take a 5-minute walk",
+                    icon: "figure.walk",
+                    color: .green
+                ) {
+                    // Action for walk
+                }
+                
+                tinyThingButton(
+                    title: "Text a friend",
+                    icon: "bubble.left.and.bubble.right.fill",
+                    color: .blue
+                ) {
+                    // Action for text
+                }
+                
+                tinyThingButton(
+                    title: "2-minute breathing",
+                    icon: "wind",
+                    color: .purple
+                ) {
+                    // Action for breathing
+                }
+            }
         }
         .padding(16)
         .background(
@@ -138,6 +164,30 @@ struct HomeView: View {
                 .fill(Color.white)
                 .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 6)
         )
+    }
+    
+    private func tinyThingButton(title: String, icon: String, color: Color, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: 12) {
+                Image(systemName: icon)
+                    .foregroundColor(color)
+                    .font(.system(size: 18))
+                Text(title)
+                    .font(.body)
+                    .foregroundColor(.primary)
+                Spacer()
+            }
+            .padding(14)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(color.opacity(0.1))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(color.opacity(0.3), lineWidth: 1)
+                    )
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 
     private var tasksSection: some View {
