@@ -2,10 +2,18 @@ import SwiftUI
 import Combine
 
 final class AppState: ObservableObject {
-    @Published var tasks: [DailyTask] = SampleData.sampleTasks
+    @Published var tasks: [DailyTask] = SampleData.sampleTasks {
+        didSet {
+            updateAISuggestion()
+        }
+    }
     @Published var displayName: String = "Alex"
     @Published var avatarInitials: String = "A"
     @Published var avatarImageName: String? = nil
+
+    // AI USM Integration
+    @Published var aiSuggestion: String?
+    private let aiService = AIService()
 
     // Onboarding flag – you can switch this to true after testing
     @Published var hasCompletedOnboarding: Bool = false
@@ -37,6 +45,10 @@ final class AppState: ObservableObject {
     var progress: Double {
         guard totalCount > 0 else { return 0.0 }
         return Double(completedCount) / Double(totalCount)
+    }
+
+    init() {
+        updateAISuggestion()
     }
 
     func markTaskCompleted(_ task: DailyTask) {
@@ -171,5 +183,10 @@ final class AppState: ObservableObject {
 
     func completeOnboarding() {
         hasCompletedOnboarding = true
+    }
+
+    // MARK: - AI USM Logic
+    private func updateAISuggestion() {
+        self.aiSuggestion = aiService.getSuggestion(for: self.tasks)
     }
 }

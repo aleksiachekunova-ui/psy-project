@@ -8,6 +8,13 @@ struct DailyTask: Identifiable {
     let explanationTitle: String
     let explanationBody: String
     var isCompleted: Bool
+    var energyImpact: EnergyImpact
+}
+
+enum EnergyImpact: Codable {
+    case draining
+    case neutral
+    case filling
 }
 
 // MARK: - Badge Model

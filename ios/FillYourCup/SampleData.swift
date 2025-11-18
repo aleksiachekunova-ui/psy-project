@@ -11,7 +11,8 @@ enum SampleData {
             explanationBody: """
 A brief walk gently activates the body without demanding much energy. Even a few minutes of movement can increase blood flow, wake up the nervous system, and nudge the brain to release dopamine and endorphins. These signals tell the brain that the body is safe and active, which can reduce feelings of heaviness and improve mood for the next hour.
 """,
-            isCompleted: false
+            isCompleted: false,
+            energyImpact: .filling
         ),
         DailyTask(
             id: UUID(),
@@ -22,7 +23,8 @@ A brief walk gently activates the body without demanding much energy. Even a few
             explanationBody: """
 Depression often pushes people to withdraw, even when they want connection. Sending a short message is a low-pressure way to signal to your brain that you are not alone. Small social interactions can reduce perceived isolation and activate reward circuits related to belonging and support.
 """,
-            isCompleted: false
+            isCompleted: false,
+            energyImpact: .filling
         ),
         DailyTask(
             id: UUID(),
@@ -33,7 +35,8 @@ Depression often pushes people to withdraw, even when they want connection. Send
             explanationBody: """
 Slow, steady breathing activates the parasympathetic nervous system, the part responsible for recovery and calm. When you extend the exhale, the heart rate slightly slows down and the body receives a physical signal that the situation is safe enough to relax. This can reduce anxiety and make the next task feel more doable.
 """,
-            isCompleted: false
+            isCompleted: false,
+            energyImpact: .filling
         ),
         DailyTask(
             id: UUID(),
@@ -44,7 +47,8 @@ Slow, steady breathing activates the parasympathetic nervous system, the part re
             explanationBody: """
 Completing a small, clearly defined task gives the brain a sense of closure and mastery. This can release a small amount of dopamine, the chemical that signals that effort was worthwhile. A made bed also adds structure to the environment, which helps anchor the day when motivation is low.
 """,
-            isCompleted: false
+            isCompleted: false,
+            energyImpact: .neutral
         )
     ]
     
