@@ -55,10 +55,25 @@ struct HomeView: View {
                             name: appState.displayName,
                             progress: appState.progress,
                             completed: appState.completedCount,
-                            total: appState.totalCount
+                            total: appState.totalCount,
+                            streak: appState.currentStreak
                         )
                         .frame(height: 260)
                         .transition(.scale.combined(with: .opacity))
+
+                        // Mood Check-in Section
+                        MoodCheckInView()
+                            .transition(.opacity)
+                        
+                        // Badges Section
+                        if !appState.badges.isEmpty {
+                            BadgesSectionView()
+                                .transition(.opacity)
+                        }
+                        
+                        // Weekly Goals Section
+                        WeeklyGoalsView()
+                            .transition(.opacity)
 
                         tinyThingSection
                             .transition(.move(edge: .bottom).combined(with: .opacity))

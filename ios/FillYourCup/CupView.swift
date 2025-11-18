@@ -5,6 +5,7 @@ struct CupCardView: View {
     let progress: Double
     let completed: Int
     let total: Int
+    let streak: Int
     @State private var appear = false
 
     var body: some View {
@@ -39,6 +40,30 @@ struct CupCardView: View {
                     .opacity(appear ? 1.0 : 0.0)
                     .offset(y: appear ? 0 : 10)
 
+                HStack(spacing: 16) {
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(Color.purple)
+                            .frame(width: 8, height: 8)
+                        Text("\(completed) of \(total) tasks")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    if streak > 0 {
+                        HStack(spacing: 6) {
+                            Image(systemName: "flame.fill")
+                                .font(.system(size: 12))
+                                .foregroundColor(.orange)
+                            Text("\(streak) day streak")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+                .opacity(appear ? 1.0 : 0.0)
+                .offset(y: appear ? 0 : 10)
+                
                 HStack(spacing: 8) {
                     ForEach(0..<total, id: \.self) { index in
                         Circle()

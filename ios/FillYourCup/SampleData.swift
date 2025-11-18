@@ -47,4 +47,31 @@ Completing a small, clearly defined task gives the brain a sense of closure and 
             isCompleted: false
         )
     ]
+    
+    static let sampleWeeklyGoals: [WeeklyGoal] = [
+        WeeklyGoal(
+            id: UUID(),
+            title: "Move your body 3 times",
+            icon: "figure.run",
+            color: Color(red: 0.4, green: 0.7, blue: 1.0),
+            target: 3,
+            current: 2
+        ),
+        WeeklyGoal(
+            id: UUID(),
+            title: "Reach out to 2 people",
+            icon: "person.2.fill",
+            color: Color(red: 0.4, green: 0.8, blue: 0.6),
+            target: 2,
+            current: 1
+        ),
+        WeeklyGoal(
+            id: UUID(),
+            title: "Try 1 calming practice",
+            icon: "lotus",
+            color: Color(red: 1.0, green: 0.6, blue: 0.8),
+            target: 1,
+            current: 0
+        )
+    ]
 }
