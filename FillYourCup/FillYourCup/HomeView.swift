@@ -55,10 +55,32 @@ struct HomeView: View {
                             name: appState.displayName,
                             progress: appState.progress,
                             completed: appState.completedCount,
-                            total: appState.totalCount
+                            total: appState.totalCount,
+                            streak: appState.currentStreak
                         )
                         .frame(height: 260)
                         .transition(.scale.combined(with: .opacity))
+
+<<<<<<< Updated upstream
+                        // Mood Check-in Section
+                        MoodCheckInView()
+                            .transition(.opacity)
+                        
+                        // Badges Section
+                        if !appState.badges.isEmpty {
+                            BadgesSectionView()
+                                .transition(.opacity)
+                        }
+                        
+                        // Weekly Goals Section
+                        WeeklyGoalsView()
+                            .transition(.opacity)
+=======
+                        if let suggestion = appState.aiSuggestion {
+                            aiSuggestionSection(suggestionText: suggestion)
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
+                        }
+>>>>>>> Stashed changes
 
                         tinyThingSection
                             .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -223,6 +245,34 @@ struct HomeView: View {
             )
         }
         .buttonStyle(AnimatedButtonStyle(scale: 0.96))
+    }
+
+    private func aiSuggestionSection(suggestionText: String) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: "sparkles")
+                .font(.title3)
+                .foregroundColor(.purple)
+                .padding(.top, 2)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text("A Tip from AI USM")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                Text(suggestionText)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            Spacer()
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.purple.opacity(0.1))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.purple.opacity(0.2), lineWidth: 1)
+                )
+        )
     }
 
     private var tasksSection: some View {
